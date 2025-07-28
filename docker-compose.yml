@@ -1,0 +1,28 @@
+# MAGO streamlit services
+
+services:
+   mago-streamlit:
+    image: mago-streamlit:latest
+    container_name:  mago-streamlit
+    environment:
+      - LC_ALL=C.UTF-8
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    volumes:
+      - /data/mago-exp/exp:/opt/exp
+      - /data/mago-exp/uri:/opt/uri
+      - /etc/localtime:/etc/localtime:ro
+    cap_add:
+      - SYS_ADMIN
+    ports:
+      - 9008:59008
+    entrypoint: ["bash", "scripts/run.sh"]
+    networks:
+      - mago-services
+
+networks:
+  mago-services:
+    external: true
